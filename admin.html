@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <title>Administrador | RM Burguer</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <a href="index.html" class="logo">RM<span>Burguer</span></a>
+  <nav>
+    <a href="index.html">Ver sitio</a>
+    <button class="btn btn--sm" id="logout" type="button" hidden>Salir</button>
+  </nav>
+</header>
+
+<main class="admin wrap">
+
+  <section id="login" class="login formcard">
+    <h1>Administrador</h1>
+    <p>Escribe el PIN para editar el sitio. PIN de demostración: <strong>1234</strong>.</p>
+    <form id="loginForm">
+      <label>PIN <input id="pin" type="password" inputmode="numeric" autocomplete="off" required></label>
+      <p class="err" id="pinError" role="alert"></p>
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <div id="panel" hidden>
+    <h1>Panel de administrador</h1>
+    <p class="lead">Los cambios se ven al instante en el sitio de los clientes.</p>
+    <p class="msg" id="msg" role="status"></p>
+
+    <!-- Menú -->
+    <section class="block">
+      <h2>Menú</h2>
+      <div class="formcard">
+        <form id="menuForm">
+          <div class="row">
+            <label>Sección <select name="sec" id="secSel"></select></label>
+            <label>Nombre <input name="nombre" required maxlength="60" autocomplete="off"></label>
+            <label>Precio (MXN) <input name="precio" type="number" min="0" step="0.5" required></label>
+          </div>
+          <label>Descripción <textarea name="desc" rows="2" maxlength="160"></textarea></label>
+          <div class="row">
+            <label>Foto (opcional) <input name="foto" type="file" accept="image/*"></label>
+            <label>o enlace de imagen <input name="url" type="url" placeholder="https://…"></label>
+          </div>
+          <div><button class="btn" type="submit">Agregar al menú</button></div>
+        </form>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Foto</th><th>Nombre</th><th>Sección</th><th>Precio</th><th><span class="sr">Acciones</span></th></tr></thead>
+          <tbody id="menuBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Sucursales -->
+    <section class="block">
+      <h2>Sucursales</h2>
+      <div class="formcard">
+        <form id="branchForm">
+          <div class="row">
+            <label>Nombre <input name="nombre" required maxlength="40" autocomplete="off"></label>
+            <label>Dirección <input name="addr" required maxlength="120"></label>
+            <label>Horario <input name="hours" required maxlength="80" placeholder="Lunes a domingo, de 1:00 pm a 11:00 pm"></label>
+          </div>
+          <div><button class="btn" type="submit">Agregar sucursal</button></div>
+        </form>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Nombre</th><th>Dirección</th><th>Horario</th><th><span class="sr">Acciones</span></th></tr></thead>
+          <tbody id="branchBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Insumos -->
+    <section class="block">
+      <h2>Insumos</h2>
+      <div class="formcard">
+        <form id="insumoForm">
+          <div class="row">
+            <label>Nombre <input name="nombre" required maxlength="60" autocomplete="off"></label>
+            <label>Cantidad <input name="qty" type="number" min="0" step="any" required></label>
+            <label>Unidad <select name="unit"><option>pz</option><option>kg</option><option>g</option><option>l</option><option>ml</option></select></label>
+            <label>Costo por unidad (MXN) <input name="cost" type="number" min="0" step="0.01" required></label>
+          </div>
+          <div><button class="btn" type="submit">Agregar insumo</button></div>
+        </form>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Insumo</th><th>Cantidad</th><th>Costo unitario</th><th>Total</th><th><span class="sr">Acciones</span></th></tr></thead>
+          <tbody id="insumosBody"></tbody>
+          <tfoot><tr><td colspan="3">Valor del inventario</td><td id="insumosTotal" colspan="2"></td></tr></tfoot>
+        </table>
+      </div>
+    </section>
+
+    <p class="block"><button class="link" id="reset" type="button">Restablecer datos de demostración</button></p>
+  </div>
+</main>
+
+<script src="js/shared.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
