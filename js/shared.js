@@ -82,14 +82,32 @@ window.RM = (() => {
       { id: 's1', name: 'RM Centro', addr: 'Av. Ficticia 123, Centro, Cancún, Q. Roo', hours: 'Lunes a domingo, de 1:00 pm a 11:00 pm' },
       { id: 's2', name: 'RM Zona Hotelera', addr: 'Blvd. Ejemplo km 9, Zona Hotelera, Cancún, Q. Roo', hours: 'Lunes a domingo, de 12:00 pm a 12:00 am' },
       { id: 's3', name: 'RM Puerto', addr: 'Calle Demo 45, Puerto Morelos, Q. Roo', hours: 'Martes a domingo, de 2:00 pm a 10:00 pm' }
-    ]
+    ],
+    info: {
+      historia: 'RM Burguer nació de una idea sencilla: hacer hamburguesas como las de casa, pero mejor. Empezamos con una plancha, carne molida cada día y una salsa que sigue sin compartirse. Hoy atendemos en tres sucursales, con el mismo cuidado del primer día.',
+      mision: 'Preparar hamburguesas frescas y sabrosas, con ingredientes de calidad y un servicio cercano, para que cada pedido sea una razón para volver.',
+      vision: 'Ser la hamburguesería favorita de nuestra región, reconocida por su sabor, su calidad constante y su trato humano.',
+      valores: [
+        { t: 'Calidad', d: 'Ingredientes frescos y carne molida todos los días.' },
+        { t: 'Sabor', d: 'Recetas propias, sin atajos.' },
+        { t: 'Servicio', d: 'Atendemos como nos gustaría que nos atendieran.' },
+        { t: 'Compromiso', d: 'Cumplimos los tiempos y cuidamos cada detalle.' }
+      ],
+      telefono: '+52 000 000 0000',
+      email: 'contacto@rmburguer.example',
+      whatsapp: '',
+      redes: { instagram: 'https://www.instagram.com/', facebook: 'https://www.facebook.com/', tiktok: 'https://www.tiktok.com/' }
+    }
   };
 
   const clone = o => structuredClone(o);
   const load = () => {
     try {
       const d = JSON.parse(localStorage.getItem(KEY));
-      if (d && Array.isArray(d.menu) && Array.isArray(d.insumos) && Array.isArray(d.sucursales)) return d;
+      if (d && Array.isArray(d.menu) && Array.isArray(d.insumos) && Array.isArray(d.sucursales)) {
+        d.info = { ...clone(SEED.info), ...d.info }; // datos guardados antes de existir esta sección
+        return d;
+      }
     } catch { /* sigue con la migración */ }
     try { // migra los datos de la versión anterior (solo hamburguesas e insumos)
       const o = JSON.parse(localStorage.getItem(OLD));

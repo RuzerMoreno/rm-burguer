@@ -80,6 +80,32 @@
       : '<p class="empty">Pronto publicaremos nuestras sucursales.</p>';
   }
 
+  /* ---------- Nosotros, contacto y redes (se editan en el panel) ---------- */
+  const safeUrl = u => (/^https?:\/\//i.test(u || '') ? u : '');
+  const digits = s => String(s || '').replace(/\D/g, '');
+
+  function renderInfo() {
+    const i = RM.data.info;
+    $('#aboutText').textContent = i.historia;
+    $('#misionText').textContent = i.mision;
+    $('#visionText').textContent = i.vision;
+    $('#values').innerHTML = (i.valores || []).map(v =>
+      `<article class="value"><h3>${esc(v.t)}</h3><p>${esc(v.d)}</p></article>`).join('');
+
+    const c = [];
+    if (i.telefono) c.push(['Teléfono', `<a href="tel:${esc(i.telefono.replace(/[^\d+]/g, ''))}">${esc(i.telefono)}</a>`]);
+    if (i.email) c.push(['Correo', `<a href="mailto:${esc(i.email)}">${esc(i.email)}</a>`]);
+    if (digits(i.whatsapp)) c.push(['WhatsApp', `<a href="https://wa.me/${digits(i.whatsapp)}" target="_blank" rel="noopener">Escríbenos</a>`]);
+    $('#contactList').innerHTML = c.map(([k, v]) => `<li><span>${k}</span>${v}</li>`).join('')
+      || '<li><span>Contacto</span>Próximamente</li>';
+
+    const redes = [['Instagram', i.redes && i.redes.instagram], ['Facebook', i.redes && i.redes.facebook], ['TikTok', i.redes && i.redes.tiktok]]
+      .filter(([, u]) => safeUrl(u));
+    document.querySelectorAll('.socials').forEach(el => {
+      el.innerHTML = redes.map(([n, u]) => `<a href="${esc(safeUrl(u))}" target="_blank" rel="noopener">${n}</a>`).join('');
+    });
+  }
+
   /* ---------- Carrito ---------- */
   function renderCart() {
     const ls = lines();
@@ -165,7 +191,7 @@
     let text = `Pedido para ${s.name}\n`;
     if (name) text += `A nombre de ${name}\n`;
     text += '\n' + lines().map(({ m, q }) => `${q} x ${m.name} (${money(m.price * q)})`).join('\n') + `\n\nTotal: ${money(total())}`;
-    window.open(`https://wa.me/${RM.WHATSAPP}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    window.open(`https://wa.me/${digits(RM.data.info.whatsapp || RM.WHATSAPP)}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
     cart = {}; saveCart(); renderCart();
     $('#cartMsg').textContent = 'Listo: se abrió WhatsApp con tu pedido de demostración.';
   });
@@ -176,6 +202,7 @@
   renderTabs();
   renderMenu();
   renderBranches();
+  renderInfo();
   renderCart();
   setupScroll();
 })();

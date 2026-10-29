@@ -17,7 +17,9 @@
   <a href="#inicio" class="logo">RM<span>Burguer</span></a>
   <nav>
     <a href="#menu">Menú</a>
+    <a href="#nosotros">Nosotros</a>
     <a href="#sucursales">Sucursales</a>
+    <a href="#contacto">Contacto</a>
     <button class="btn btn--sm" id="openCart" type="button">Pedido <span id="cartCount">0</span></button>
   </nav>
 </header>
@@ -52,6 +54,19 @@
     </div>
   </section>
 
+  <section class="nosotros" id="nosotros">
+    <div class="wrap">
+      <h2>Quiénes somos</h2>
+      <p class="about" id="aboutText"></p>
+      <div class="mv">
+        <article class="mv__card"><h3>Misión</h3><p id="misionText"></p></article>
+        <article class="mv__card"><h3>Visión</h3><p id="visionText"></p></article>
+      </div>
+      <h3 class="sub">Nuestros valores</h3>
+      <div class="values" id="values"></div>
+    </div>
+  </section>
+
   <section class="sucursales" id="sucursales">
     <div class="wrap">
       <h2>Sucursales</h2>
@@ -59,10 +74,20 @@
       <div class="branches" id="branches"></div>
     </div>
   </section>
+
+  <section class="contacto" id="contacto">
+    <div class="wrap">
+      <h2>Contacto y redes</h2>
+      <p class="lead">Escríbenos o síguenos para ver novedades y promociones.</p>
+      <ul class="contact" id="contactList"></ul>
+      <div class="socials"></div>
+    </div>
+  </section>
 </main>
 
 <footer class="footer">
   <p>RM Burguer es una marca ficticia creada como proyecto de portafolio.</p>
+  <div class="socials"></div>
   <a href="admin.html">Panel de administrador</a>
 </footer>
 
@@ -73,10 +98,12 @@
     <h2>Tu pedido</h2>
     <button class="del" id="closeCart" type="button" aria-label="Cerrar pedido">✕</button>
   </header>
-  <ul id="cartLines"></ul>
-  <footer>
+  <div class="cart__scroll">
+    <ul id="cartLines"></ul>
     <label>Sucursal <select id="branch"></select></label>
     <label>A nombre de <input id="custName" maxlength="40" autocomplete="off" placeholder="Tu nombre"></label>
+  </div>
+  <footer>
     <p class="total"><span>Total</span><span id="cartTotal"></span></p>
     <button class="btn" id="sendOrder" type="button">Enviar pedido por WhatsApp</button>
     <p class="msg" id="cartMsg" role="status"></p>

@@ -38,6 +38,34 @@
     <p class="lead">Los cambios se ven al instante en el sitio de los clientes.</p>
     <p class="msg" id="msg" role="status"></p>
 
+    <!-- Información del negocio -->
+    <section class="block">
+      <h2>Información del negocio</h2>
+      <div class="formcard">
+        <form id="infoForm">
+          <label>Quiénes somos <textarea name="historia" rows="4" maxlength="600"></textarea></label>
+          <div class="row">
+            <label>Misión <textarea name="mision" rows="3" maxlength="300"></textarea></label>
+            <label>Visión <textarea name="vision" rows="3" maxlength="300"></textarea></label>
+          </div>
+          <label>Valores (uno por línea, con el formato Título: descripción)
+            <textarea name="valores" rows="4" maxlength="600"></textarea>
+          </label>
+          <div class="row">
+            <label>Teléfono <input name="telefono" maxlength="30"></label>
+            <label>Correo <input name="email" type="email" maxlength="80"></label>
+            <label>WhatsApp (con lada, solo números) <input name="whatsapp" inputmode="numeric" maxlength="20" placeholder="529981234567"></label>
+          </div>
+          <div class="row">
+            <label>Instagram (enlace) <input name="instagram" type="url" placeholder="https://…"></label>
+            <label>Facebook (enlace) <input name="facebook" type="url" placeholder="https://…"></label>
+            <label>TikTok (enlace) <input name="tiktok" type="url" placeholder="https://…"></label>
+          </div>
+          <div><button class="btn" type="submit">Guardar información</button></div>
+        </form>
+      </div>
+    </section>
+
     <!-- Menú -->
     <section class="block">
       <h2>Menú</h2>

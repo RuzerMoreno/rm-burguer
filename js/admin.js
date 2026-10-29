@@ -12,7 +12,7 @@
     $('#login').hidden = ok;
     $('#panel').hidden = !ok;
     $('#logout').hidden = !ok;
-    if (ok) render();
+    if (ok) { render(); fillInfo(); }
   }
 
   function render() {
@@ -37,6 +37,38 @@
       </tr>`).join('') : empty(5, 'No hay insumos. Agrega el primero.');
     $('#insumosTotal').textContent = money(insumos.reduce((s, i) => s + i.qty * i.cost, 0));
   }
+
+  /* Información del negocio */
+  function fillInfo() {
+    const f = $('#infoForm').elements, i = RM.data.info, r = i.redes || {};
+    f.historia.value = i.historia || '';
+    f.mision.value = i.mision || '';
+    f.vision.value = i.vision || '';
+    f.valores.value = (i.valores || []).map(v => `${v.t}: ${v.d}`).join('\n');
+    f.telefono.value = i.telefono || '';
+    f.email.value = i.email || '';
+    f.whatsapp.value = i.whatsapp || '';
+    f.instagram.value = r.instagram || '';
+    f.facebook.value = r.facebook || '';
+    f.tiktok.value = r.tiktok || '';
+  }
+
+  $('#infoForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = new FormData(e.currentTarget), g = k => String(f.get(k) || '').trim();
+    const prev = RM.data.info;
+    RM.data.info = {
+      historia: g('historia'), mision: g('mision'), vision: g('vision'),
+      valores: g('valores').split('\n').map(l => l.trim()).filter(Boolean).map(l => {
+        const k = l.indexOf(':');
+        return k < 0 ? { t: l, d: '' } : { t: l.slice(0, k).trim(), d: l.slice(k + 1).trim() };
+      }),
+      telefono: g('telefono'), email: g('email'), whatsapp: g('whatsapp'),
+      redes: { instagram: g('instagram'), facebook: g('facebook'), tiktok: g('tiktok') }
+    };
+    if (!RM.save()) { RM.data.info = prev; return; }
+    notify('Información guardada. Ya se ve en el sitio.');
+  });
 
   /* Acceso con PIN */
   $('#loginForm').addEventListener('submit', e => {
@@ -101,6 +133,7 @@
     if (!confirm('¿Restablecer los datos de demostración? Se borrarán tus cambios.')) return;
     RM.reset();
     render();
+    fillInfo();
     notify('Datos de demostración restablecidos.');
   });
 
